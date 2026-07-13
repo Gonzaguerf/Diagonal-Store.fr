@@ -47,7 +47,7 @@ export const siteConfig = {
     },
   },
   drop: {
-    code: "DROP 01",
+    code: "DROP 02",
     season: "2026",
     teaser: "Édition limitée — 150 pièces",
   },
