@@ -6,10 +6,10 @@ import { motion } from "framer-motion";
 import { Reveal } from "@/components/motion/Reveal";
 
 const SHOTS = [
-  { src: "/products/white-back.webp", alt: "Tee blanc — vue de dos", aspect: "aspect-[3/4]" },
-  { src: "/products/blue-1.webp", alt: "Tee bleu", aspect: "aspect-[4/5]" },
-  { src: "/products/black-back.png", alt: "Tee noir — vue de dos", aspect: "aspect-[3/4]" },
-  { src: "/brand/banner.webp", alt: "DIAGONAL — Drop 01", aspect: "aspect-[16/9]" },
+  { src: "/products/drop1/1.jpg", alt: "DIAGONAL — Drop 01", aspect: "aspect-[3/4]" },
+  { src: "/products/drop1/2.png", alt: "DIAGONAL — Drop 01", aspect: "aspect-[4/5]" },
+  { src: "/products/drop1/3.jpg", alt: "DIAGONAL — Drop 01", aspect: "aspect-[3/4]" },
+  { src: "/products/drop1/4.jpg", alt: "DIAGONAL — Drop 01", aspect: "aspect-[16/9]" },
 ];
 
 export function Lookbook() {
