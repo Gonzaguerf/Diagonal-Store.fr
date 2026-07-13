@@ -100,7 +100,7 @@ export function Hero() {
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 1.9 }} className="mt-10 flex flex-wrap gap-3">
               <Link href="/shop" className="btn-primary group">
-                <span>Shop Drop 01</span>
+                <span>Shop Drop 02</span>
                 <span aria-hidden className="transition-transform duration-500 group-hover:translate-x-1">→</span>
               </Link>
               <Link href="/about" className="btn-outline">Notre histoire</Link>
