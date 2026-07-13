@@ -110,7 +110,7 @@ export function Hero() {
 
         <div className="border-t border-white/[0.08] bg-ink-950/70 backdrop-blur-md">
           <Marquee speed={45} className="py-3" innerClassName="font-display text-xs uppercase tracking-widest-2 text-bone-200">
-            {["DROP 01 — 2026", "LIVRAISON OFFERTE > 80€", "COTON 240G", "ÉDITION LIMITÉE — 150 PCS", "WORLDWIDE", "TEE — 19,99€"].map((item, i) => (
+            {["DROP 02 — 2026", "LIVRAISON OFFERTE DÈS 65€", "COTON 240G", "ÉDITION LIMITÉE — 150 PCS", "WORLDWIDE", "TEE — 20€"].map((item, i) => (
               <span key={i} className="flex items-center gap-12">
                 <span>{item}</span>
                 <span aria-hidden className="block h-1 w-1 rounded-full bg-accent" />

@@ -4,8 +4,8 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useReducer,
 import { EMPTY_CART, type Cart, type CartLine, type CartLineMerchandise } from "./types";
 
 const STORAGE_KEY = "diagonal:cart";
-const FREE_SHIPPING_THRESHOLD = 80;
-const FLAT_SHIPPING = 6.9;
+const FREE_SHIPPING_THRESHOLD = 65;
+const FLAT_SHIPPING = 3.99;
 
 type CartAction =
   | { type: "HYDRATE"; cart: Cart }

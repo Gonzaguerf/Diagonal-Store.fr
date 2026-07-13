@@ -79,7 +79,7 @@ export default async function ProductPage({ params }: Props) {
                 Livraison & retours
                 <span className="text-bone-400 transition-transform group-open:rotate-45">+</span>
               </summary>
-              <p className="mt-3 text-sm text-bone-300">Livraison France métropolitaine en 5 à 7 jours ouvrés. Livraison gratuite dès 80€. Retour gratuit sous 14 jours.</p>
+              <p className="mt-3 text-sm text-bone-300">Livraison France métropolitaine en 3 à 5 jours ouvrés — 3,99€. Livraison gratuite dès 65€. Retour gratuit sous 14 jours.</p>
             </details>
             <details className="group py-5">
               <summary className="flex cursor-pointer items-center justify-between font-display text-sm uppercase tracking-widest-2">

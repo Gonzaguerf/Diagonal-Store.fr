@@ -4,7 +4,7 @@ import { siteConfig } from "@/lib/site-config";
 const ITEMS = [
   `${siteConfig.drop.code} — ${siteConfig.drop.season}`,
   "WORLDWIDE SHIPPING",
-  "LIVRAISON OFFERTE DÈS 80€",
+  "LIVRAISON OFFERTE DÈS 65€",
   "LIMITED RUN",
   "STREETWEAR FROM ANOTHER ANGLE",
   siteConfig.drop.teaser,

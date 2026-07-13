@@ -10,7 +10,7 @@ const SECTIONS = [
     items: [
       { q: "Quels sont les délais de livraison ?", a: "Comptez 5 à 7 jours ouvrés pour la France métropolitaine. UE : 7 à 10 jours. Reste du monde : 10 à 15 jours." },
       { q: "Livrez-vous à l'international ?", a: "Oui — DIAGONAL livre worldwide." },
-      { q: "À partir de combien la livraison est-elle offerte ?", a: "Livraison gratuite en France métropolitaine dès 80€ d'achat." },
+      { q: "À partir de combien la livraison est-elle offerte ?", a: "Livraison gratuite en France métropolitaine dès 65€ d'achat." },
     ],
   },
   {
