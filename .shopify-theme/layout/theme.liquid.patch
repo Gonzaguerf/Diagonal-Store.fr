@@ -1,0 +1,17 @@
+<!-- ============================================================
+  MODIFICATION — layout/theme.liquid
+  Ajoute ces 2 lignes JUSTE AVANT la balise </head>
+  ============================================================ -->
+
+  {{ 'premium.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'premium.js' | asset_url }}" defer></script>
+
+<!-- ============================================================
+  Résultat dans theme.liquid (contexte) :
+
+    ...
+    {{ 'base.css' | asset_url | stylesheet_tag }}   ← déjà là
+    {{ 'premium.css' | asset_url | stylesheet_tag }}  ← AJOUTER
+    <script src="{{ 'premium.js' | asset_url }}" defer></script>  ← AJOUTER
+  </head>
+  ============================================================ -->

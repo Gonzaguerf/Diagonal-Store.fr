@@ -1,0 +1,512 @@
+{% comment %}
+  DIAGONAL STORE — Best Sellers
+  Fichier : sections/best-sellers.liquid
+{% endcomment %}
+
+{%- liquid
+  assign col = collections[section.settings.collection]
+  assign limit = section.settings.products_limit | default: 4
+-%}
+
+<section class="ds-bs" id="ds-best-sellers">
+
+  <!-- En-tête -->
+  <div class="ds-bs__header">
+    <div class="ds-bs__header-left">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="ds-eyebrow ds-bs__eyebrow ds-reveal">
+          {{- section.settings.eyebrow -}}
+        </p>
+      {%- endif -%}
+      <h2 class="ds-bs__title ds-reveal ds-d1">
+        {{- section.settings.title | default: 'Best Sellers' -}}
+      </h2>
+    </div>
+    <div class="ds-bs__header-right ds-reveal ds-d2">
+      {%- if section.settings.view_all_url != blank -%}
+        <a href="{{ section.settings.view_all_url }}" class="ds-link ds-bs__view-all">
+          View All
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+            <path d="M2 7.5H13M13 7.5L9.5 4M13 7.5L9.5 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <!-- Grille produits -->
+  <div class="ds-bs__grid">
+
+    {%- if col != blank -%}
+
+      {%- for product in col.products limit: limit -%}
+        <article class="ds-pc ds-reveal" style="transition-delay: {{ forloop.index0 | times: 0.08 | append: 's' }}">
+
+          <!-- Image wrapper -->
+          <a href="{{ product.url }}" class="ds-pc__img-wrap" tabindex="-1" aria-hidden="true">
+
+            {%- if product.featured_image -%}
+              {{
+                product.featured_image
+                | image_url: width: 700
+                | image_tag:
+                  class: 'ds-pc__img ds-pc__img--main',
+                  loading: 'lazy',
+                  alt: product.featured_image.alt | default: product.title,
+                  widths: '350, 500, 700'
+              }}
+              {%- if product.images[1] -%}
+                {{
+                  product.images[1]
+                  | image_url: width: 700
+                  | image_tag:
+                    class: 'ds-pc__img ds-pc__img--hover',
+                    loading: 'lazy',
+                    alt: '',
+                    widths: '350, 500, 700'
+                }}
+              {%- endif -%}
+            {%- else -%}
+              <div class="ds-pc__img-placeholder">
+                {{- 'product-' | append: forloop.index | placeholder_svg_tag: 'ds-pc__placeholder-svg' -}}
+              </div>
+            {%- endif -%}
+
+            <!-- Badge -->
+            {%- unless product.available -%}
+              <span class="ds-pc__badge ds-pc__badge--soldout">Sold Out</span>
+            {%- else -%}
+              {%- if product.compare_at_price > product.price -%}
+                <span class="ds-pc__badge ds-pc__badge--sale">Sale</span>
+              {%- elsif product.tags contains 'new' or product.tags contains 'New' -%}
+                <span class="ds-pc__badge ds-pc__badge--new">New</span>
+              {%- endif -%}
+            {%- endunless -%}
+
+            <!-- Quick Add -->
+            {%- if product.available -%}
+              <div class="ds-pc__quick">
+                {%- if product.variants.size == 1 -%}
+                  <button
+                    class="ds-pc__quick-btn"
+                    data-variant-id="{{ product.first_available_variant.id }}"
+                    onclick="dsQuickAdd(this, event)"
+                    aria-label="Quick add {{ product.title }}"
+                  >
+                    Quick Add
+                  </button>
+                {%- else -%}
+                  <a href="{{ product.url }}" class="ds-pc__quick-btn">
+                    Select Options
+                  </a>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+
+          </a>
+
+          <!-- Info -->
+          <div class="ds-pc__info">
+            <div class="ds-pc__info-left">
+              <a href="{{ product.url }}" class="ds-pc__name">{{ product.title }}</a>
+              {%- if product.metafields.custom.subtitle != blank -%}
+                <p class="ds-pc__sub">{{ product.metafields.custom.subtitle }}</p>
+              {%- endif -%}
+            </div>
+            <div class="ds-pc__prices">
+              {%- if product.compare_at_price > product.price -%}
+                <span class="ds-pc__price ds-pc__price--sale">{{ product.price | money }}</span>
+                <s class="ds-pc__price ds-pc__price--was">{{ product.compare_at_price | money }}</s>
+              {%- else -%}
+                <span class="ds-pc__price">{{ product.price | money }}</span>
+              {%- endif -%}
+            </div>
+          </div>
+
+        </article>
+      {%- endfor -%}
+
+    {%- else -%}
+
+      <!-- Placeholders si pas de collection -->
+      {%- for i in (1..4) -%}
+        <article class="ds-pc ds-reveal" style="transition-delay: {{ forloop.index0 | times: 0.08 | append: 's' }}">
+          <div class="ds-pc__img-wrap">
+            <div class="ds-pc__img-placeholder">
+              {{- 'product-' | append: i | placeholder_svg_tag: 'ds-pc__placeholder-svg' -}}
+            </div>
+          </div>
+          <div class="ds-pc__info">
+            <div class="ds-pc__info-left">
+              <span class="ds-pc__name">Produit {{ i }}</span>
+            </div>
+            <div class="ds-pc__prices">
+              <span class="ds-pc__price">€120.00</span>
+            </div>
+          </div>
+        </article>
+      {%- endfor -%}
+
+    {%- endif -%}
+
+  </div>
+
+</section>
+
+<style>
+  /* ---- Section ---- */
+  .ds-bs {
+    padding: var(--ds-space-xl, 120px) 48px;
+    background: var(--ds-black, #000);
+    color: var(--ds-white, #fff);
+  }
+
+  /* ---- Header ---- */
+  .ds-bs__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 56px;
+  }
+
+  .ds-bs__eyebrow {
+    margin-bottom: 10px;
+  }
+
+  .ds-bs__title {
+    font-family: var(--ds-font-head, sans-serif);
+    font-size: clamp(52px, 7vw, 110px);
+    line-height: 0.88;
+    letter-spacing: -0.01em;
+  }
+
+  .ds-bs__view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--ds-font-body, sans-serif);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    transition: color 0.2s ease, gap 0.3s var(--ds-ease, ease);
+    padding-bottom: 12px;
+  }
+
+  .ds-bs__view-all::after { display: none; } /* override ds-link underline */
+
+  .ds-bs__view-all:hover {
+    color: var(--ds-white, #fff);
+    gap: 14px;
+  }
+
+  /* ---- Grid ---- */
+  .ds-bs__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--ds-bs-cols, 4), 1fr);
+    gap: 2px;
+  }
+
+  /* ---- Product Card ---- */
+  .ds-pc {
+    background: var(--ds-grey-800, #111);
+  }
+
+  /* Image wrapper */
+  .ds-pc__img-wrap {
+    position: relative;
+    display: block;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: var(--ds-grey-900, #0a0a0a);
+    text-decoration: none;
+  }
+
+  .ds-pc__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition:
+      transform 0.65s var(--ds-ease, ease),
+      opacity   0.4s ease;
+  }
+
+  .ds-pc__img--main  { z-index: 1; }
+  .ds-pc__img--hover { z-index: 2; opacity: 0; transform: scale(1.03); }
+
+  .ds-pc:hover .ds-pc__img--main  { transform: scale(1.04); }
+  .ds-pc:hover .ds-pc__img--hover { opacity: 1; transform: scale(1); }
+
+  /* Placeholder */
+  .ds-pc__img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+
+  .ds-pc__placeholder-svg {
+    width: 100%;
+    height: 100%;
+    opacity: 0.08;
+    fill: var(--ds-white, #fff);
+  }
+
+  /* Badge */
+  .ds-pc__badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 3;
+    font-family: var(--ds-font-body, sans-serif);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    line-height: 1;
+  }
+
+  .ds-pc__badge--new {
+    background: transparent;
+    color: var(--ds-white, #fff);
+    border: 1px solid rgba(255,255,255,0.5);
+  }
+
+  .ds-pc__badge--sale {
+    background: var(--ds-white, #fff);
+    color: var(--ds-black, #000);
+  }
+
+  .ds-pc__badge--soldout {
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.12);
+  }
+
+  /* Quick add */
+  .ds-pc__quick {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 4;
+    transform: translateY(100%);
+    transition: transform 0.32s var(--ds-ease, ease);
+  }
+
+  .ds-pc:hover .ds-pc__quick { transform: translateY(0); }
+
+  .ds-pc__quick-btn {
+    display: block;
+    width: 100%;
+    padding: 14px 16px;
+    background: var(--ds-white, #fff);
+    color: var(--ds-black, #000);
+    font-family: var(--ds-font-body, sans-serif);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .ds-pc__quick-btn:hover {
+    background: var(--ds-grey-100, #f5f5f5);
+  }
+
+  .ds-pc__quick-btn.is-loading {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .ds-pc__quick-btn.is-done {
+    background: #000;
+    color: #fff;
+  }
+
+  /* Info */
+  .ds-pc__info {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 0 20px;
+  }
+
+  .ds-pc__name {
+    display: block;
+    font-family: var(--ds-font-body, sans-serif);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--ds-white, #fff);
+    text-decoration: none;
+    line-height: 1.45;
+    transition: opacity 0.2s ease;
+  }
+
+  .ds-pc__name:hover { opacity: 0.6; }
+
+  .ds-pc__sub {
+    font-size: 10px;
+    color: var(--ds-grey-400, #666);
+    letter-spacing: 0.06em;
+    margin-top: 3px;
+  }
+
+  .ds-pc__prices {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-shrink: 0;
+    gap: 2px;
+  }
+
+  .ds-pc__price {
+    font-family: var(--ds-font-body, sans-serif);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ds-white, #fff);
+    white-space: nowrap;
+  }
+
+  .ds-pc__price--sale { color: #e84040; }
+
+  .ds-pc__price--was {
+    font-size: 10px;
+    color: rgba(255,255,255,0.35);
+    font-weight: 400;
+    text-decoration: line-through;
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 1200px) {
+    .ds-bs__grid { --ds-bs-cols: 3; }
+  }
+
+  @media (max-width: 900px) {
+    .ds-bs__grid { --ds-bs-cols: 2; }
+  }
+
+  @media (max-width: 768px) {
+    .ds-bs {
+      padding: 72px 20px;
+    }
+
+    .ds-bs__header {
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 36px;
+    }
+
+    .ds-bs__view-all { padding-bottom: 0; }
+
+    .ds-bs__grid {
+      --ds-bs-cols: 2;
+      gap: 1px;
+    }
+
+    .ds-pc__quick { display: none; }
+  }
+
+  @media (max-width: 420px) {
+    .ds-bs__grid { --ds-bs-cols: 1; }
+  }
+</style>
+
+<script>
+  async function dsQuickAdd(btn, event) {
+    event.preventDefault();
+    const id = btn.dataset.variantId;
+    if (!id || btn.classList.contains('is-loading')) return;
+
+    btn.classList.add('is-loading');
+    btn.textContent = '...';
+
+    try {
+      const res = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: parseInt(id), quantity: 1 })
+      });
+
+      if (!res.ok) throw new Error();
+
+      btn.classList.remove('is-loading');
+      btn.classList.add('is-done');
+      btn.textContent = '✓ Added';
+
+      /* Refresh cart drawer si Dawn */
+      document.dispatchEvent(new CustomEvent('cart:refresh'));
+
+      setTimeout(() => {
+        btn.classList.remove('is-done');
+        btn.textContent = 'Quick Add';
+      }, 2200);
+
+    } catch {
+      btn.classList.remove('is-loading');
+      btn.textContent = 'Error — retry';
+      setTimeout(() => { btn.textContent = 'Quick Add'; }, 2000);
+    }
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Best Sellers",
+  "tag": "section",
+  "class": "section-best-sellers",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sous-label",
+      "default": "Our Favourites"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre de section",
+      "default": "Best Sellers"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection à afficher"
+    },
+    {
+      "type": "range",
+      "id": "products_limit",
+      "min": 2,
+      "max": 8,
+      "step": 2,
+      "default": 4,
+      "label": "Nombre de produits"
+    },
+    {
+      "type": "url",
+      "id": "view_all_url",
+      "label": "Lien 'View All'"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Best Sellers"
+    }
+  ]
+}
+{% endschema %}

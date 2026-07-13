@@ -1,0 +1,385 @@
+{% comment %}
+  DIAGONAL STORE — Hero Premium
+  Fichier : sections/hero-premium.liquid
+{% endcomment %}
+
+<section class="ds-hero" id="ds-hero">
+
+  {%- if section.settings.bg_image -%}
+    <div class="ds-hero__bg" aria-hidden="true">
+      {{
+        section.settings.bg_image
+        | image_url: width: 1920
+        | image_tag:
+          class: 'ds-hero__bg-img',
+          loading: 'eager',
+          fetchpriority: 'high',
+          alt: ''
+      }}
+      <div class="ds-hero__overlay"></div>
+    </div>
+  {%- else -%}
+    <div class="ds-hero__bg ds-hero__bg--solid" aria-hidden="true"></div>
+  {%- endif -%}
+
+  <div class="ds-hero__inner">
+
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="ds-eyebrow ds-hero__eyebrow ds-reveal">
+        {{- section.settings.eyebrow -}}
+      </p>
+    {%- endif -%}
+
+    <div class="ds-hero__title-wrap" aria-label="{{ section.settings.line1 }} {{ section.settings.line2 }} {{ section.settings.line3 }}">
+      <span class="ds-hero__line ds-hero__line--1" aria-hidden="true">
+        {{- section.settings.line1 | default: 'Born' -}}
+      </span>
+      <span class="ds-hero__line ds-hero__line--2 ds-hero__line--outline" aria-hidden="true">
+        {{- section.settings.line2 | default: 'In The' -}}
+      </span>
+      <span class="ds-hero__line ds-hero__line--3" aria-hidden="true">
+        {{- section.settings.line3 | default: 'Streets' -}}
+      </span>
+    </div>
+
+    {%- if section.settings.subtext != blank -%}
+      <p class="ds-hero__sub ds-reveal ds-d3">
+        {{- section.settings.subtext -}}
+      </p>
+    {%- endif -%}
+
+    <div class="ds-hero__cta ds-reveal ds-d4">
+      {%- if section.settings.cta1_url != blank -%}
+        <a href="{{ section.settings.cta1_url }}" class="ds-btn ds-btn--white">
+          <span>{{- section.settings.cta1_label | default: 'Shop Now' -}}</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7H12M12 7L8 3M12 7L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      {%- endif -%}
+      {%- if section.settings.cta2_url != blank -%}
+        <a href="{{ section.settings.cta2_url }}" class="ds-btn ds-btn--outline">
+          <span>{{- section.settings.cta2_label | default: 'Explore' -}}</span>
+        </a>
+      {%- endif -%}
+    </div>
+
+  </div>
+
+  <div class="ds-hero__scroll" aria-hidden="true">
+    <div class="ds-hero__scroll-line"></div>
+    <span class="ds-hero__scroll-label">Scroll</span>
+  </div>
+
+</section>
+
+{%- assign marquee_text = section.settings.marquee_text | default: 'New Drop — Limited Edition — Diagonal Store — Premium Streetwear — ' -%}
+<div class="ds-marquee {% if section.settings.marquee_inverted %}ds-marquee--inverted{% endif %}" aria-hidden="true">
+  <div class="ds-marquee__track">
+    {%- for i in (1..6) -%}
+      <span class="ds-marquee__item">
+        {{- marquee_text -}}
+        <span class="dot"></span>
+      </span>
+    {%- endfor -%}
+  </div>
+</div>
+
+<style>
+  /* ---- Hero Layout ---- */
+  .ds-hero {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--ds-black);
+    padding: 140px 48px 100px;
+  }
+
+  /* ---- Background ---- */
+  .ds-hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .ds-hero__bg--solid {
+    background: var(--ds-black);
+  }
+
+  .ds-hero__bg-img {
+    width: 100%;
+    height: 110%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .ds-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      160deg,
+      rgba(0,0,0,0.25) 0%,
+      rgba(0,0,0,0.55) 50%,
+      rgba(0,0,0,0.92) 100%
+    );
+  }
+
+  /* ---- Inner ---- */
+  .ds-hero__inner {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    width: 100%;
+    max-width: 1280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+  }
+
+  /* ---- Eyebrow ---- */
+  .ds-hero__eyebrow {
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.35em;
+  }
+
+  /* ---- Title ---- */
+  .ds-hero__title-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 0.88;
+    gap: 0;
+  }
+
+  .ds-hero__line {
+    display: block;
+    font-family: var(--ds-font-head);
+    font-size: clamp(72px, 13.5vw, 200px);
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--ds-white);
+    overflow: hidden;
+    clip-path: inset(0 0 -10px 0);
+
+    /* Entrance animation */
+    opacity: 0;
+    transform: translateY(105%);
+    animation: ds-lineUp 0.9s var(--ds-ease) forwards;
+  }
+
+  .ds-hero__line--1 { animation-delay: 0.05s; }
+  .ds-hero__line--2 { animation-delay: 0.18s; }
+  .ds-hero__line--3 { animation-delay: 0.31s; }
+
+  .ds-hero__line--outline {
+    -webkit-text-stroke: 2px rgba(255,255,255,0.85);
+    color: transparent;
+  }
+
+  @keyframes ds-lineUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---- Subtext ---- */
+  .ds-hero__sub {
+    font-family: var(--ds-font-body);
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.5);
+    max-width: 380px;
+    line-height: 1.7;
+  }
+
+  /* ---- CTA ---- */
+  .ds-hero__cta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* ---- Scroll indicator ---- */
+  .ds-hero__scroll {
+    position: absolute;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    z-index: 1;
+    animation: ds-fadeUp 1s var(--ds-ease) 1.4s both;
+  }
+
+  .ds-hero__scroll-line {
+    width: 1px;
+    height: 56px;
+    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.6));
+    animation: ds-scrollPulse 2.2s ease-in-out infinite;
+  }
+
+  .ds-hero__scroll-label {
+    font-family: var(--ds-font-body);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+  }
+
+  @keyframes ds-fadeUp {
+    from { opacity: 0; transform: translateX(-50%) translateY(16px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+
+  @keyframes ds-scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.75); }
+    50%       { opacity: 1;   transform: scaleY(1); }
+  }
+
+  /* ---- Mobile ---- */
+  @media (max-width: 768px) {
+    .ds-hero {
+      padding: 120px 24px 80px;
+      align-items: flex-end;
+      text-align: left;
+    }
+
+    .ds-hero__inner {
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .ds-hero__title-wrap { align-items: flex-start; }
+
+    .ds-hero__line--outline {
+      -webkit-text-stroke: 1px rgba(255,255,255,0.85);
+    }
+
+    .ds-hero__cta {
+      justify-content: flex-start;
+      flex-direction: row;
+    }
+
+    .ds-btn { padding: 13px 24px; }
+  }
+
+  @media (max-width: 480px) {
+    .ds-hero__cta {
+      flex-direction: column;
+      width: 100%;
+    }
+    .ds-btn { width: 100%; max-width: 100%; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Hero Premium",
+  "tag": "section",
+  "class": "section-hero-premium",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image de fond"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Image (laisse vide pour fond noir)"
+    },
+    {
+      "type": "header",
+      "content": "Texte principal"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Ligne d'accroche (petite)",
+      "default": "New Collection — SS26"
+    },
+    {
+      "type": "text",
+      "id": "line1",
+      "label": "Titre — Ligne 1",
+      "default": "Born"
+    },
+    {
+      "type": "text",
+      "id": "line2",
+      "label": "Titre — Ligne 2 (contour vide)",
+      "default": "In The"
+    },
+    {
+      "type": "text",
+      "id": "line3",
+      "label": "Titre — Ligne 3",
+      "default": "Streets"
+    },
+    {
+      "type": "text",
+      "id": "subtext",
+      "label": "Sous-texte (optionnel)",
+      "default": "Crafted for those who move different."
+    },
+    {
+      "type": "header",
+      "content": "Boutons"
+    },
+    {
+      "type": "url",
+      "id": "cta1_url",
+      "label": "Bouton 1 — Lien"
+    },
+    {
+      "type": "text",
+      "id": "cta1_label",
+      "label": "Bouton 1 — Texte",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "cta2_url",
+      "label": "Bouton 2 — Lien"
+    },
+    {
+      "type": "text",
+      "id": "cta2_label",
+      "label": "Bouton 2 — Texte",
+      "default": "Explore"
+    },
+    {
+      "type": "header",
+      "content": "Bandeau défilant"
+    },
+    {
+      "type": "text",
+      "id": "marquee_text",
+      "label": "Texte du bandeau",
+      "default": "New Drop — Limited Edition — Diagonal Store — Premium Streetwear — "
+    },
+    {
+      "type": "checkbox",
+      "id": "marquee_inverted",
+      "label": "Bandeau blanc (fond blanc, texte noir)",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Premium"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg: 10 10 10;
+    --color-bg-elevated: 17 17 17;
+    --color-fg: 250 250 250;
+    --color-muted: 138 138 138;
+    --color-accent: 255 69 0;
+    --color-line: 255 255 255 / 0.08;
+    --header-h: 64px;
+    --ticker-h: 32px;
+    color-scheme: dark;
+  }
+
+  * { @apply border-white/[0.08]; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-ink-900 text-bone-100 font-body antialiased;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 69, 0, 0.06), transparent 70%),
+      linear-gradient(180deg, #0a0a0a 0%, #070707 100%);
+    background-attachment: fixed;
+    overflow-x: hidden;
+  }
+
+  body.no-scroll { overflow: hidden; }
+
+  ::selection {
+    background-color: rgb(var(--color-accent));
+    color: rgb(var(--color-bg));
+  }
+
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.16); }
+
+  h1, h2, h3, h4 { @apply font-display tracking-tightest-2; }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-ink-900 rounded-sm;
+  }
+
+  button, a { -webkit-tap-highlight-color: transparent; }
+  img, video { @apply max-w-full; }
+
+  @supports (padding: env(safe-area-inset-bottom)) {
+    .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-display font-medium uppercase tracking-wider-2 transition-all duration-300 ease-out-expo;
+    @apply px-6 h-12 text-sm relative overflow-hidden;
+  }
+  .btn-primary { @apply btn bg-bone-100 text-ink-900 hover:bg-accent hover:text-bone-100; }
+  .btn-outline { @apply btn border border-bone-100/60 text-bone-100 hover:bg-bone-100 hover:text-ink-900 hover:border-bone-100; }
+  .btn-ghost { @apply btn text-bone-100 hover:text-accent; }
+  .btn-accent { @apply btn bg-accent text-bone-100 hover:bg-accent-glow; }
+
+  .section { @apply relative py-20 sm:py-28 lg:py-36; }
+
+  .eyebrow {
+    @apply font-display text-xs uppercase tracking-widest-2 text-bone-400;
+  }
+}
+
+@layer utilities {
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+}

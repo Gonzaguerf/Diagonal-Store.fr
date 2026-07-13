@@ -1,0 +1,267 @@
+/* ================================================
+   DIAGONAL STORE — PREMIUM CSS GLOBAL
+   Theme: Dawn | Style: Streetwear Minimal Premium
+   ================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ---- Variables ---- */
+:root {
+  --ds-black:       #000000;
+  --ds-white:       #ffffff;
+  --ds-grey-900:    #0a0a0a;
+  --ds-grey-800:    #111111;
+  --ds-grey-700:    #1a1a1a;
+  --ds-grey-400:    #666666;
+  --ds-grey-200:    #cccccc;
+  --ds-grey-100:    #f5f5f5;
+
+  --ds-font-head:   'Bebas Neue', 'Arial Black', sans-serif;
+  --ds-font-body:   'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --ds-ease:        cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ds-ease-out:    cubic-bezier(0.0, 0.0, 0.2, 1);
+  --ds-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --ds-t-fast:      0.2s;
+  --ds-t-base:      0.4s;
+  --ds-t-slow:      0.8s;
+
+  --ds-space-xs:    8px;
+  --ds-space-sm:    16px;
+  --ds-space-md:    32px;
+  --ds-space-lg:    64px;
+  --ds-space-xl:    120px;
+}
+
+/* ---- Reset ---- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---- Dark theme override ---- */
+body {
+  font-family: var(--ds-font-body);
+  background-color: var(--ds-black);
+  color: var(--ds-white);
+  overflow-x: hidden;
+}
+
+/* Override les fonds blancs de Dawn */
+.shopify-section,
+.color-scheme-1,
+.color-background-1 {
+  background-color: var(--ds-black) !important;
+  color: var(--ds-white) !important;
+}
+
+/* ---- Typographie ---- */
+h1, h2, h3, h4, h5 {
+  font-family: var(--ds-font-head);
+  letter-spacing: 0.02em;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar       { width: 3px; }
+::-webkit-scrollbar-track { background: var(--ds-black); }
+::-webkit-scrollbar-thumb { background: var(--ds-grey-700); }
+
+/* ---- Selection ---- */
+::selection {
+  background: var(--ds-white);
+  color: var(--ds-black);
+}
+
+/* ================================================
+   SCROLL REVEAL
+   ================================================ */
+
+.ds-reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition:
+    opacity  var(--ds-t-slow) var(--ds-ease),
+    transform var(--ds-t-slow) var(--ds-ease);
+}
+
+.ds-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ds-reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition:
+    opacity  var(--ds-t-slow) var(--ds-ease),
+    transform var(--ds-t-slow) var(--ds-ease);
+}
+
+.ds-reveal-left.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Délais en cascade */
+.ds-d1 { transition-delay: 0.1s; }
+.ds-d2 { transition-delay: 0.2s; }
+.ds-d3 { transition-delay: 0.3s; }
+.ds-d4 { transition-delay: 0.4s; }
+.ds-d5 { transition-delay: 0.5s; }
+
+/* ================================================
+   BUTTONS
+   ================================================ */
+
+.ds-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 36px;
+  font-family: var(--ds-font-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  transition: color var(--ds-t-base) var(--ds-ease);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ds-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  transition: transform var(--ds-t-base) var(--ds-ease);
+}
+
+.ds-btn:hover::before { transform: translateX(0); }
+
+.ds-btn span { position: relative; z-index: 1; }
+
+/* Blanc (primary) */
+.ds-btn--white {
+  background: var(--ds-white);
+  color: var(--ds-black);
+}
+.ds-btn--white::before { background: var(--ds-black); }
+.ds-btn--white:hover   { color: var(--ds-white); }
+
+/* Outline */
+.ds-btn--outline {
+  background: transparent;
+  color: var(--ds-white);
+  border: 1px solid rgba(255,255,255,0.3);
+}
+.ds-btn--outline::before { background: var(--ds-white); }
+.ds-btn--outline:hover   { color: var(--ds-black); border-color: var(--ds-white); }
+
+/* ================================================
+   MARQUEE
+   ================================================ */
+
+.ds-marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 12px 0;
+  border-top: 1px solid var(--ds-grey-800);
+  border-bottom: 1px solid var(--ds-grey-800);
+}
+
+.ds-marquee__track {
+  display: inline-flex;
+  animation: ds-marquee 22s linear infinite;
+}
+
+.ds-marquee__track:hover { animation-play-state: paused; }
+
+.ds-marquee__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 32px;
+  padding-right: 32px;
+  font-family: var(--ds-font-head);
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  color: var(--ds-white);
+  text-transform: uppercase;
+}
+
+.ds-marquee__item .dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--ds-grey-400);
+  flex-shrink: 0;
+}
+
+@keyframes ds-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Marquee inversé (blanc) */
+.ds-marquee--inverted {
+  background: var(--ds-white);
+  border-color: transparent;
+}
+.ds-marquee--inverted .ds-marquee__item { color: var(--ds-black); }
+.ds-marquee--inverted .ds-marquee__item .dot { background: var(--ds-grey-400); }
+
+/* ================================================
+   UTILITY
+   ================================================ */
+
+.ds-link {
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+}
+
+.ds-link::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width var(--ds-t-base) var(--ds-ease);
+}
+
+.ds-link:hover::after { width: 100%; }
+
+.ds-eyebrow {
+  font-family: var(--ds-font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--ds-grey-400);
+}
+
+/* ================================================
+   RESPONSIVE HELPERS
+   ================================================ */
+
+@media (max-width: 768px) {
+  :root {
+    --ds-space-xl: 72px;
+    --ds-space-lg: 48px;
+  }
+}
