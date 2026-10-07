@@ -13,8 +13,24 @@ interface ProductGalleryProps {
 
 export function ProductGallery({ images, title }: ProductGalleryProps) {
   const [active, setActive] = useState(0);
+  const touchStartX = useState<number | null>(null);
+
   if (images.length === 0) return null;
   const current = images[active]!;
+
+  function handleTouchStart(e: React.TouchEvent) {
+    touchStartX[1](e.touches[0]!.clientX);
+  }
+
+  function handleTouchEnd(e: React.TouchEvent) {
+    if (touchStartX[0] === null) return;
+    const diff = touchStartX[0] - e.changedTouches[0]!.clientX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) setActive((a) => Math.min(a + 1, images.length - 1));
+      else setActive((a) => Math.max(a - 1, 0));
+    }
+    touchStartX[1](null);
+  }
 
   return (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-[80px_1fr]">
@@ -31,7 +47,8 @@ export function ProductGallery({ images, title }: ProductGalleryProps) {
       </div>
 
       <div className="relative">
-        <div className="relative aspect-[3/4] w-full overflow-hidden bg-ink-700">
+        <div className="relative aspect-[3/4] w-full overflow-hidden bg-ink-700"
+          onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
           <AnimatePresence mode="wait">
             <motion.div key={active}
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
